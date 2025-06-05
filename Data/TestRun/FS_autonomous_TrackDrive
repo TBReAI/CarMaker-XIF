@@ -56,10 +56,12 @@ DrivMan.Man.0.LongStep.0.EndCond = DM.Lap.No >= 3
 DrivMan.Man.0.LongStep.0.Cmds:
 	Eval first (DM.Lap.No >=2) ? Log ("Lap Time = %.3f secomds", DM.Lap.Time)
 DrivMan.Man.0.LongStep.0.TimeLimit = 300
+DrivMan.Man.0.LongStep.0.Dyn = Driver 1 0
 DrivMan.Man.0.LatStep.0.EndCond = DM.Lap.No >= 3
 DrivMan.Man.0.LatStep.0.Cmds:
 	Eval first (DM.Lap.No >=2) ? Log ("Lap Time = %.3f secomds", DM.Lap.Time)
 DrivMan.Man.0.LatStep.0.TimeLimit = 300
+DrivMan.Man.0.LatStep.0.Dyn = Driver 0
 Driver.Info = Example driver template
 Driver.Mode = std
 Driver.MultiStep = 1

@@ -549,6 +549,9 @@ User_VehicleControl_Calc (double dt)
     if (Vehicle.OperationState != OperState_Driving)
 	return 0;
 
+
+    return 0;
+
     VehicleControl.SelectorCtrl     = SelectorCtrl_D;
 
     VehicleControl.Gas              = 0.5f;

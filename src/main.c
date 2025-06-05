@@ -18,9 +18,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <math.h>
 
+#include <xif_server.h>
+
 #include "carmaker/CM_Main.h"
+
+#include "cmimg.h" // Include the cmimg header for CarMaker image client functionality
 
 /***************************************************************
 ** MARK: CONSTANTS & MACROS
@@ -44,6 +49,7 @@
 
 int main(int argc, char **argv)
 {
+    xifs_init();
     int cmInit = CM_Main_init(argc, argv);
 
     if (cmInit != 0) {
@@ -51,11 +57,26 @@ int main(int argc, char **argv)
         return EXIT_FAILURE;
     }
 
+    cmimg_init(); // Initialize the CarMaker image client
+
+
+    uint64_t time = 0;
+
     while (CM_Main_running()) {
+
+
+        uint64_t time_now = CM_Main_get_ms();
+
+        if (time_now > time) {
+            time = time_now;
+
+            xifs_transmit_timestep(time);
+        }
+        
         CM_Main_update();
-        printf("CarMaker is running...\n");
     }
 
+    cmimg_quit(); // Clean up the CarMaker image client
     return CM_Main_quit();
 }
 
