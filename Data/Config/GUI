@@ -1,0 +1,12 @@
+#INFOFILE1.1 (UTF-8) - Do not remove this line!
+FileIdent = GUI-Config 13.0
+CM.Exe = build/CarMaker-XIF.win64.exe
+CM.Args =
+CM.Exe.History:
+	build/CarMaker-XIF.win64.exe
+	build/TBReAI.win64.exe
+	build/TBReAI.linux64
+	CarMaker.linux64
+CM.Args.History:
+	""
+GPUParameters.FName =

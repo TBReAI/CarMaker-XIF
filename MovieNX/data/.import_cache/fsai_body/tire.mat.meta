@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.17.0.1">
+	<guid>e3ccb781b85fea7e3ef143df5b3f073cb5d125b3</guid>
+	<type>material</type>
+	<hash>2725568176</hash>
+	<runtimes>
+		<runtime id="e3ccb781b85fea7e3ef143df5b3f073cb5d125b3" name="tire.mat" link="0"/>
+	</runtimes>
+	<parameters>
+		<parameter type="bool" name="unchanged">1</parameter>
+	</parameters>
+</asset>

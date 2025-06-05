@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.18.0.1">
+	<guid>4253a38393327e7c020592c9e7a74445b24e1085</guid>
+	<type>material</type>
+	<hash>2077719017</hash>
+	<runtimes>
+		<runtime id="4253a38393327e7c020592c9e7a74445b24e1085" name="plastic_white_traffic.002.mat" link="0"/>
+	</runtimes>
+	<parameters>
+		<parameter type="bool" name="unchanged">1</parameter>
+	</parameters>
+</asset>

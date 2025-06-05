@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.17.0.1">
+	<guid>61fe2bd94c09cfd1191740d2ceff062f79884765</guid>
+	<type>file</type>
+	<hash>278691992</hash>
+	<runtimes>
+		<runtime id="61fe2bd94c09cfd1191740d2ceff062f79884765" name="afs_racecar.jpg" link="0"/>
+	</runtimes>
+	<parameters>
+		<parameter type="bool" name="unchanged">1</parameter>
+	</parameters>
+</asset>

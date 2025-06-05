@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.17.0.1">
+	<guid>a83068bb40bf8e2b34caaf49b5eea6d8a319037d</guid>
+	<type>material</type>
+	<hash>868341996</hash>
+	<runtimes>
+		<runtime id="a83068bb40bf8e2b34caaf49b5eea6d8a319037d" name="shield.001.mat" link="0"/>
+	</runtimes>
+	<parameters>
+		<parameter type="bool" name="unchanged">1</parameter>
+	</parameters>
+</asset>

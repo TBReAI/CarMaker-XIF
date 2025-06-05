@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.18.0.1">
+	<guid>72a191454513cd21851cdc3b18c8934d63face97</guid>
+	<type>material</type>
+	<hash>140840289</hash>
+	<runtimes>
+		<runtime id="72a191454513cd21851cdc3b18c8934d63face97" name="trafficcone_small.orange_cylinder_plastic_white_traffic.001mat.mat" link="0"/>
+	</runtimes>
+	<parameters>
+		<parameter type="bool" name="unchanged">1</parameter>
+	</parameters>
+</asset>

@@ -1,0 +1,3 @@
+[submodule "src/XIF"]
+	path = src/XIF
+	url = https://github.com/TBReAI/XIF.git

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.18.0.1">
+	<guid>8d1b050e387100ebd94bdcd0d70ac0e12eb4396a</guid>
+	<type>mesh</type>
+	<hash>2377488891</hash>
+	<runtimes>
+		<runtime id="8d1b050e387100ebd94bdcd0d70ac0e12eb4396a" name="trafficcone_large.orange_cylinder.007_plastic_white_traffic.002.mesh" link="0"/>
+	</runtimes>
+	<parameters>
+		<parameter type="bool" name="unchanged">1</parameter>
+	</parameters>
+</asset>

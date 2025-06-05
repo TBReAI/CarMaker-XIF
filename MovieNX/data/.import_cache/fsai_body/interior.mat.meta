@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.17.0.1">
+	<guid>2c0ce7451b1dee1f24d39d835a60a1837c0f3297</guid>
+	<type>material</type>
+	<hash>3768395223</hash>
+	<runtimes>
+		<runtime id="2c0ce7451b1dee1f24d39d835a60a1837c0f3297" name="interior.mat" link="0"/>
+	</runtimes>
+	<parameters>
+		<parameter type="bool" name="unchanged">1</parameter>
+	</parameters>
+</asset>

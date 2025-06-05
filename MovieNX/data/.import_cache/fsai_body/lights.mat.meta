@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.17.0.1">
+	<guid>cac98a1b71d9c603d6b2652e53c170d21b7fac9a</guid>
+	<type>material</type>
+	<hash>4228201062</hash>
+	<runtimes>
+		<runtime id="cac98a1b71d9c603d6b2652e53c170d21b7fac9a" name="lights.mat" link="0"/>
+	</runtimes>
+	<parameters>
+		<parameter type="bool" name="unchanged">1</parameter>
+	</parameters>
+</asset>

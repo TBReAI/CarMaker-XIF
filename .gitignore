@@ -1,0 +1,10 @@
+.vscode/
+build/
+bin/
+obj/
+*.sln
+.DS_Store
+build/
+
+# carmaker files
+SimOutput/

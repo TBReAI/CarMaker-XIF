@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nodes version="2.18.0.1">
+	<node type="NodeDummy" id="235268813" name="plastic_blue_traffic">
+		<transform>1 8.74227838251e-08 -3.82137148619e-15 0.0 -8.74227838251e-08 1 -4.37113900019e-08 0.0 7.94093388051e-23 4.37113900019e-08 1 0.0 0 0 0 1.0</transform>
+		<node type="NodeDummy" id="1011781064" name="plastic_blue_traffic_root">
+			<transform>1 -5.01610803597e-24 -7.88860905221e-31 0.0 -5.01610838384e-24 1 0 0.0 0 0 1 0.0 0 0 0 1.0</transform>
+			<node type="ObjectMeshStatic" id="1903285895" name="TrafficCone_small.blue_Cylinder.006_plastic_blue_traffic">
+				<streaming_mode_vram>0</streaming_mode_vram>
+				<streaming_mode_ram>0</streaming_mode_ram>
+				<mesh_name>guid://204c56a1ebb855c5c720a737bde6c9a5d3245fd3</mesh_name>
+				<surface name="plastic_blue_traffic" material="31a882bbe722bad1712bc941fc185237a7eb3f7d"/>
+				<transform>1 -5.01610803597e-24 -7.88860905221e-31 0.0 -5.01610838384e-24 1 0 0.0 0 0 1 0.0 0 0 0 1.0</transform>
+			</node>
+			<node type="ObjectMeshStatic" id="1306501690" name="TrafficCone_small.blue_Cylinder.006_plastic_white_traffic.003">
+				<streaming_mode_vram>0</streaming_mode_vram>
+				<streaming_mode_ram>0</streaming_mode_ram>
+				<mesh_name>guid://d21c2efa78bf93bcbb81a29c9639de7ecf10e316</mesh_name>
+				<surface name="plastic_white_traffic.003" material="04e03865c33a41a5c8e4865bd4779062cac5feb7"/>
+				<transform>1 -5.01610803597e-24 -7.88860905221e-31 0.0 -5.01610838384e-24 1 0 0.0 0 0 1 0.0 0 0 0 1.0</transform>
+			</node>
+		</node>
+	</node>
+</nodes>

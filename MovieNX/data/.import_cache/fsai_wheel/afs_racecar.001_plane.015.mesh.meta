@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.17.0.1">
+	<guid>3f0b18d538dfe061c4a7e293a97a9f22a5cae8a7</guid>
+	<type>mesh</type>
+	<hash>847807382</hash>
+	<runtimes>
+		<runtime id="3f0b18d538dfe061c4a7e293a97a9f22a5cae8a7" name="afs_racecar.001_plane.015.mesh" link="0"/>
+	</runtimes>
+	<parameters>
+		<parameter type="bool" name="unchanged">1</parameter>
+	</parameters>
+</asset>

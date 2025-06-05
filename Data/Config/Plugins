@@ -1,0 +1,18 @@
+#INFOFILE1.1 (UTF-8) - Do not remove this line!
+FileIdent = CarMaker-Plugins 1
+FileCreator = CarMaker 13.1.1
+PTGearBox.NoGearBox = 1
+PTGearBox.NoGearBox.Info = NoGearBox
+PTGearBox.NoGearBox.Tags =
+Environment.Generic =
+Environment.Generic.Info =
+Environment.Generic.Tags =
+VhclOperator.IPGOperator = 1
+VhclOperator.IPGOperator.Info =
+VhclOperator.IPGOperator.Tags =
+PTControl.CM4SL = 1
+PTControl.CM4SL.Info = CM4SL
+PTControl.CM4SL.Tags =
+HydBrakeSystem.HydESP = 3
+HydBrakeSystem.HydESP.Info = HydESP
+HydBrakeSystem.HydESP.Tags =
