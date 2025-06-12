@@ -52,7 +52,8 @@ int main(int argc, char **argv)
     xifs_init();
     int cmInit = CM_Main_init(argc, argv);
 
-    if (cmInit != 0) {
+    if (cmInit != 0) 
+    {
         fprintf(stderr, "CarMaker initialization failed with error code: %d\n", cmInit);
         return EXIT_FAILURE;
     }
@@ -62,16 +63,30 @@ int main(int argc, char **argv)
 
     uint64_t time = 0;
 
-    while (CM_Main_running()) {
+    uint64_t last_lidar = 0;
 
+    while (CM_Main_running()) 
+    {
+
+        cmimg_update(); // Update the CarMaker image client
 
         uint64_t time_now = CM_Main_get_ms();
 
-        if (time_now > time) {
+        if (time_now > time) 
+        {
             time = time_now;
 
             xifs_transmit_timestep(time);
         }
+
+        if (time_now - last_lidar > 50) 
+        {
+            CM_Main_capture_pointcloud();
+
+            last_lidar = time_now;
+        }
+
+
         
         CM_Main_update();
     }

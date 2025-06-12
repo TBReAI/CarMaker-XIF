@@ -41,6 +41,8 @@ extern "C" {
 
 int cmimg_init(void);
 
+void cmimg_update(void);
+
 void cmimg_quit(void);
 
 #ifdef __cplusplus

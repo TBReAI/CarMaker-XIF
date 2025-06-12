@@ -126,6 +126,8 @@
 #include "DrivMan.h"
 #include "VehicleControl.h"
 
+#include <xif_server.h>
+
 
 
 /*** Time Synchronisation	***********************************************/
@@ -1539,8 +1541,16 @@ static unsigned long long CycleNo64 = 0;
 static int lidarIndex = -1;
 static tLidarRSI* lidar;
 
-#define LIDAR_BEAM_COUNT (300 * 50)
-//static vector4_t lidar_buffer[LIDAR_BEAM_COUNT];
+static int imuIndex = -1;
+static tBdySensor* imu;
+static tBdyFrame* bodyFrame;
+
+
+#define LIDAR_BEAMS_WIDTH (360)
+#define LIDAR_BEAMS_HEIGHT (16)
+#define LIDAR_BEAM_COUNT (LIDAR_BEAMS_WIDTH * LIDAR_BEAMS_HEIGHT)
+static vector4_t lidar_buffer[LIDAR_BEAM_COUNT];
+
 
 //static tbrert_pointcloud_callback_t lidar_callback = NULL;
 
@@ -1635,43 +1645,70 @@ int CM_Main_quit(void)
     return SimCore_Handle_AppRestart ();
 }
 
-#if 0
+
 void CM_Main_capture_pointcloud(void)
 {
     if (lidarIndex == -1)
     {
+
         lidarIndex = LidarRSI_FindIndexForName("Lidar_F");
     } else {
 
-        lidar = LidarRSI_GetByIndex(lidarIndex);
-        if (lidar != NULL)
-        {
-            printf("Lidar data: %d", lidar->nScanPoints);
+        printf("LidarRSICount %d\n", LidarRSICount);
+        lidar = &LidarRSI[0];
+
+        //lidar = LidarRSI_GetByIndex(lidarIndex);
+        if (lidar == NULL)
+        { 
+            printf("Lidar not found at index %d\n", lidarIndex);
+            return; // Lidar not found
         }
 
-        const int rows = 300;
-        const int cols = 50;
-        const float hMin = -60.0 * M_PI / 180.0;
-        const float hMax = 60.0 * M_PI / 180.0;
-        const float vMin = -5.0 * M_PI / 180.0;
-        const float vMax = 5.0 * M_PI / 180.0;
+        printf("Lidar ScanNumber %d ScanTime %f nScanPoints %d\n",
+               lidar->ScanNumber, lidar->ScanTime, lidar->nScanPoints);
         
+        lidar->nScanPoints = LIDAR_BEAM_COUNT; // Ensure we have the expected number of scan points
+
+        if (lidar->nScanPoints != LIDAR_BEAM_COUNT)
+        {
+            printf("Lidar scan points count mismatch: %d != %d\n", lidar->nScanPoints, LIDAR_BEAM_COUNT);
+            return; // Mismatch in expected scan points
+        }
+
+
+        const float hMin = -60.0f;
+        const float hMax =  60.0f;
+        const float vMin =  -5.0f;
+        const float vMax =   5.0f;
+
+
+        const float dh = (hMax - hMin) / (float)(LIDAR_BEAMS_WIDTH); // 0.4 deg
+        const float dv = (vMax - vMin) / (float)(LIDAR_BEAMS_HEIGHT); // 0.2 deg
+
+        const float h0 = hMin + dh * 0.5f; // -59.8 deg
+        const float v0 = vMin + dv * 0.5f; // -4.9 deg
+
          // Fill the point cloud
 
         size_t points = 0;
 
         for (int i = 0; (i < lidar->nScanPoints) && (i < LIDAR_BEAM_COUNT); ++i) {
-            
             const tScanPoint scanPoint = lidar->ScanPoint[i];
+            int beam_id = scanPoint.BeamID;
 
-            beam_entry_t entry = beam_table[scanPoint.BeamID];
+            // Extract beam indices
+            int vi = beam_id / LIDAR_BEAMS_WIDTH;
+            int hi = beam_id % LIDAR_BEAMS_WIDTH;
 
-            double azimuth = entry.azimuth * (M_PI / 180.0); //hMin + (hMax - hMin) * beamX / cols;
-            double elevation = entry.elevation * (M_PI / 180.0);//vMin + (vMax - vMin) * beamY / rows;
+            // Compute angles in radians
+            double azimuth = (h0 + hi * dh) * (M_PI / 180.0);   // Horizontal angle
+            double elevation = (v0 + vi * dv) * (M_PI / 180.0); // Vertical angle
 
+            // Ray length
             double ray_length = scanPoint.LengthOF * 0.5;
 
-            lidar_buffer[i].x = (float)(ray_length * cos(elevation) * sin(azimuth));
+            // Convert spherical to Cartesian coordinates
+            lidar_buffer[i].x = (float)(ray_length * cos(elevation) * sin(azimuth)) * -1.0f; // Flip X
             lidar_buffer[i].y = (float)(ray_length * cos(elevation) * cos(azimuth));
             lidar_buffer[i].z = (float)(ray_length * sin(elevation));
             lidar_buffer[i].w = (float)(scanPoint.Intensity);
@@ -1679,18 +1716,14 @@ void CM_Main_capture_pointcloud(void)
             points++;
         }
         
-        tbrert_pointcloud_t pointcloud;
+        xif_pointcloud_t pointcloud;
         pointcloud.num_points = points;
         pointcloud.points = lidar_buffer;
+        pointcloud.timestamp = CM_Main_get_ms();
 
-        if (lidar_callback != NULL)
-        {
-            lidar_callback(&pointcloud);
-        }
+        xifs_transmit_pointcloud(pointcloud);
     }
 }
-
-#endif
 
 
 uint64_t CM_Main_get_ms(void)
@@ -1698,11 +1731,4 @@ uint64_t CM_Main_get_ms(void)
     return (SimCore.Time * 1000.0);
 }
 
-#if 0
-void CM_Main_set_pointcloud_callback(tbrert_pointcloud_callback_t callback)
-{
-    lidar_callback = callback;
-}
-
-#endif
 

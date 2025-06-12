@@ -46,7 +46,6 @@
 #endif
 
 #include <fcntl.h>
-
 #include <xif_server.h>
 
 /***************************************************************
@@ -150,6 +149,13 @@ static inline double GetTime()  // in seconds
 static pthread_t cmimg_thread;
 static volatile bool running = true;
 
+static volatile bool new_image = false;
+static volatile int ImgWidth = 0;
+static volatile int ImgHeight = 0;
+static volatile char* image_data = NULL;
+static volatile size_t image_size = 0;
+static volatile unsigned long long sim_time = 0;
+
 /***************************************************************
 ** MARK: PUBLIC FUNCTIONS
 ***************************************************************/
@@ -181,6 +187,30 @@ int cmimg_init(void)
     #endif
 
     return 0;   
+}
+
+void cmimg_update(void)
+{
+    // This function is intentionally left empty.
+    // The thread will handle the updates in its main loop.
+    // If you need to perform any periodic updates, you can implement them here.
+    // For now, we just keep the thread running.
+
+    if (new_image)
+    {
+        xif_image_t image;
+        image.timestamp = sim_time;
+        image.width = ImgWidth;
+        image.height = ImgHeight;
+        image.channels = 3; // Assuming RGB image
+        image.data = image_data;
+        
+        xifs_transmit_image(image);
+        
+        free(image_data);
+
+        new_image = false;
+    }
 }
 
 void cmimg_quit(void)
@@ -552,7 +582,7 @@ static int RSDS_GetData(void)
 
     /* Variables for Image Processing */
     char ImgType[32], AniMode[16];
-    int ImgWidth, ImgHeight, Channel;
+    int Channel;
     float SimTime;
     unsigned int ImgLen, dataLen;
 
@@ -563,14 +593,15 @@ static int RSDS_GetData(void)
         if (RSDScfg.Verbose == 1)
             printf("%-6.3f : %-2d : %-8s %dx%d %d\n", SimTime, Channel, ImgType, ImgWidth, ImgHeight, ImgLen);
 
-        if (ImgLen > 0) {
+        if (ImgLen > 0 && !new_image) {
 
             // this is how we get the data
-            char *img = (char *) malloc(ImgLen);
+            image_data = (char *) malloc(ImgLen);
             for (len = 0; len < ImgLen; len += res) {
-                if ((res = recv(RSDScfg.sock, img + len, ImgLen - len, RSDScfg.RecvFlags)) < 0) {
+                if ((res = recv(RSDScfg.sock, image_data + len, ImgLen - len, RSDScfg.RecvFlags)) < 0) {
                     printf("RSDS: Socket Reading Failure\n");
-                    free(img);
+                    free(image_data);
+                    image_data = NULL;
                     break;
                 }
             }
@@ -582,8 +613,10 @@ static int RSDS_GetData(void)
             //node->PublishImage(img, ImgLen, ImgType, Channel, ImgWidth, ImgHeight, SimTime);
             printf("GOT IMAGE WITH SIZE %u %u LEN %d CHANNEL %d TYPE %d at time %lu\n", ImgWidth, ImgHeight, ImgLen, Channel, ImgType, SimTime);
 
+            
             // Call the image callback if set
             
+            /*
             xif_image_t image;
             image.timestamp = (uint64_t)(SimTime * 1000.0); // Convert seconds to milliseconds
             image.width = ImgWidth;
@@ -592,8 +625,17 @@ static int RSDS_GetData(void)
             image.data = img;
                 
             xifs_transmit_image(image);
+            */
 
-            free(img);
+            if (image_data)
+            {
+                /* write to file */
+                image_size = ImgLen;
+                sim_time = (unsigned long long)(SimTime * 1000.0); // Convert seconds to milliseconds
+                new_image = true;
+            }
+            
+            
 
             RSDSIF_AddDataToStats(len);
         }
