@@ -58,9 +58,9 @@ int CM_Main_quit(void);
 
 void CM_Main_capture_pointcloud(void);
 
-uint64_t CM_Main_get_ms(void);
+void CM_Main_capture_imu(void);
 
-//void CM_Main_set_pointcloud_callback(tbrert_pointcloud_callback_t callback);
+uint64_t CM_Main_get_ms(void);
 
 #ifdef __cplusplus
 }

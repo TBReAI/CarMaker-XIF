@@ -33,6 +33,10 @@ target_link_libraries(CarMaker-XIF PRIVATE
     ${XIF_LIBS}
 )
 
+add_dependencies(CarMaker-XIF
+    ${XIF_DEPENDS}
+)
+
 if (LINUX)
     set(OUTPUT_NAME "${CMAKE_BINARY_DIR}/CarMaker-XIF.linux64")
 elseif (WIN32)

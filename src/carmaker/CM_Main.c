@@ -1725,6 +1725,55 @@ void CM_Main_capture_pointcloud(void)
     }
 }
 
+void CM_Main_capture_imu(void)
+{
+    if (lidarIndex == -1)
+    {
+        imuIndex = InertialSensor_FindIndexForName("B00");
+    } else {
+        imu = InertialSensor_GetByIndex(imuIndex);
+        if (imu != NULL)
+        {
+            bodyFrame = imu->Fr;
+
+            // Orientation (assuming r_zyx contains roll, pitch, yaw in radians)
+            double roll = bodyFrame->r_zyx[0];
+            double pitch = bodyFrame->r_zyx[1];
+            double yaw = bodyFrame->r_zyx[2];
+
+            xif_imu_t imu_update;
+            imu_update.orientation.y = -(float)roll;
+            imu_update.orientation.x = (float)pitch;
+            imu_update.orientation.z = (float)(yaw + M_PI);
+
+            
+
+            // Angular velocity
+            imu_update.angular_velocity.y = -1.0f*bodyFrame->omega_0[0]; 
+            imu_update.angular_velocity.x = bodyFrame->omega_0[1];
+            imu_update.angular_velocity.z = bodyFrame->omega_0[2];
+
+            // Linear acceleration
+            imu_update.linear_acceleration.y = -1.0f*bodyFrame->a_0[0];
+            imu_update.linear_acceleration.x = bodyFrame->a_0[1];
+            imu_update.linear_acceleration.z = bodyFrame->a_0[2];
+
+            imu_update.timestamp = CM_Main_get_ms();
+
+            printf("IMU Update: Orientation (roll: %f, pitch: %f, yaw: %f), "
+                   "Angular Velocity (x: %f, y: %f, z: %f), "
+                   "Linear Acceleration (x: %f, y: %f, z: %f)\n",
+                   imu_update.orientation.x, imu_update.orientation.y, imu_update.orientation.z,
+                   imu_update.angular_velocity.x, imu_update.angular_velocity.y, imu_update.angular_velocity.z,
+                   imu_update.linear_acceleration.x, imu_update.linear_acceleration.y, imu_update.linear_acceleration.z);
+
+            xifs_transmit_imu(imu_update);
+
+        }
+    }
+}
+
+
 
 uint64_t CM_Main_get_ms(void)
 {

@@ -64,6 +64,7 @@ int main(int argc, char **argv)
     uint64_t time = 0;
 
     uint64_t last_lidar = 0;
+    uint64_t last_imu = 0;
 
     while (CM_Main_running()) 
     {
@@ -86,6 +87,12 @@ int main(int argc, char **argv)
             last_lidar = time_now;
         }
 
+        if (time_now - last_imu > 0) 
+        {
+            CM_Main_capture_imu();
+
+            last_imu = time_now;
+        }
 
         
         CM_Main_update();
